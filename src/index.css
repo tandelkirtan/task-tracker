@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors */
+  --color-brand-blue: #0066ff;
+  --color-brand-light-blue: #e3f2ff;
+  --color-brand-green: #00c853;
+  --color-brand-yellow: #ffb300;
+  --color-brand-red: #ff3d00;
+  --color-accent: #6366f1;
+  --color-accent-soft: #eef2ff;
+  
+  /* Light Mode Colors */
+  --color-bg-main: #f8fafc;
+  --color-bg-card: #ffffff;
+  --color-bg-sidebar: #ffffff;
+  --color-bg-input: #f1f5f9;
+  --color-text-primary: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border-main: #e2e8f0;
+  
+  /* Dark Mode Colors */
+  --color-dark-bg-main: #0f172a;
+  --color-dark-bg-card: #1e293b;
+  --color-dark-bg-sidebar: #1e293b;
+  --color-dark-bg-input: #334155;
+  --color-dark-text-primary: #f8fafc;
+  --color-dark-text-muted: #94a3b8;
+  --color-dark-border-main: #334155;
+  
+  /* Dim Mode Colors */
+  --color-dim-bg-main: #1a1a2e;
+  --color-dim-bg-card: #16213e;
+  --color-dim-bg-sidebar: #16213e;
+  --color-dim-bg-input: #0f3460;
+  --color-dim-text-primary: #eaeaea;
+  --color-dim-text-muted: #a0a0a0;
+  --color-dim-border-main: #0f3460;
+}
+
+/* Light Mode */
+.light {
+  --bg-main: var(--color-bg-main);
+  --bg-card: var(--color-bg-card);
+  --bg-sidebar: var(--color-bg-sidebar);
+  --bg-input: var(--color-bg-input);
+  --text-primary: var(--color-text-primary);
+  --text-muted: var(--color-text-muted);
+  --border-main: var(--color-border-main);
+}
+
+/* Dark Mode */
+.dark {
+  --bg-main: var(--color-dark-bg-main);
+  --bg-card: var(--color-dark-bg-card);
+  --bg-sidebar: var(--color-dark-bg-sidebar);
+  --bg-input: var(--color-dark-bg-input);
+  --text-primary: var(--color-dark-text-primary);
+  --text-muted: var(--color-dark-text-muted);
+  --border-main: var(--color-dark-border-main);
+}
+
+/* Dim Mode */
+.dim {
+  --bg-main: var(--color-dim-bg-main);
+  --bg-card: var(--color-dim-bg-card);
+  --bg-sidebar: var(--color-dim-bg-sidebar);
+  --bg-input: var(--color-dim-bg-input);
+  --text-primary: var(--color-dim-text-primary);
+  --text-muted: var(--color-dim-text-muted);
+  --border-main: var(--color-dim-border-main);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border-main);
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}

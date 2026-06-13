@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #f4f5f7;
+    color: #172b4d;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    color: #0052cc;
+    font-weight: 700;
+}
+
+/* --- Main Layout --- */
+.main-section {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    flex-grow: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .main-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Columns --- */
+.sec {
+    background-color: #ebecf0;
+    border-radius: 10px;
+    padding: 15px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.sectionss1 h2, .sectionss2 h2, .sectionss3 h2 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: #5e6c84;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #dfe1e6;
+    font-weight: 600;
+}
+
+.sectionss1 { border-top: 4px solid #ff5630; } /* Red for TODO */
+.sectionss2 { border-top: 4px solid #0052cc; } /* Blue for PROCESS */
+.sectionss3 { border-top: 4px solid #36b37e; } /* Green for DONE */
+
+/* --- Task Card --- */
+.main-div {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(9, 30, 66, 0.25);
+    cursor: grab;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid transparent; /* Default border */
+}
+
+/* Status-based Card Styles */
+.card-todo { border-left-color: #ff5630; }
+.card-process { border-left-color: #0052cc; }
+.card-done { border-left-color: #36b37e; text-decoration: line-through; opacity: 0.8; }
+
+
+.main-div:hover {
+    background-color: #fafbfc;
+    box-shadow: 0 4px 8px rgba(9, 30, 66, 0.25);
+}
+
+.main-div:active {
+    cursor: grabbing;
+}
+
+.topic-name h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #172b4d;
+}
+
+.topic-name h6 {
+    font-size: 0.85rem;
+    color: #6b778c;
+    margin-bottom: 10px;
+}
+
+.days-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ebecf0;
+}
+
+.days-div h3 {
+    font-size: 0.9rem;
+    color: #5e6c84;
+    margin: 0;
+}
+
+.character {
+    background-color: #0052cc;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+/* --- Popup Form --- */
+.popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(0);
+    border: 1px solid #dfe1e6;
+}
+
+.popup-down {
+    transform: translateY(calc(100% - 50px)); /* Hide most of it, leave button visible if needed, but we are using a toggle button on top */
+}
+
+/* Adjustment for the toggle button which is now part of the popup container */
+.toggle-btn {
+    background-color: #0052cc;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px 8px 0 0; /* Rounded top */
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.popup-down .toggle-btn {
+    border-radius: 8px; /* Fully rounded when down */
+}
+
+#form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #dfe1e6;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    margin: 0; /* Reset */
+    text-align: left; /* Reset */
+}
+
+form input:focus, form select:focus {
+    border-color: #0052cc;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin: 0;
+}
+
+form button:hover {
+    background-color: #0065ff;
+}
+
+/* --- Footer --- */
+.footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: auto;
+    background-color: white;
+    border-top: 1px solid #dfe1e6;
+    color: #6b778c;
+}
+
+.footer a {
+    color: #0052cc;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* --- Mobile Adjustments --- */
+@media (max-width: 480px) {
+    .popup {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        bottom: 10px;
+    }
+}
