@@ -11,7 +11,7 @@ import type { View, UserProfile } from '../types';
 interface SidebarProps {
   activeView: View;
   onViewChange: (view: View) => void;
-  user: UserProfile;
+  user?: UserProfile;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, user }) => {

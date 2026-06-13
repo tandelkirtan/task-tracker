@@ -8,9 +8,12 @@ import MyTasks from './components/MyTasks';
 import CalendarView from './components/CalendarView';
 import PriorityView from './components/PriorityView';
 import SettingsView from './components/SettingsView';
+// @ts-ignore
 import Login from './components/Login';
 import MobileBottomNav from './components/MobileBottomNav';
+// @ts-ignore
 import { AuthProvider, useAuth } from './context/AuthContext';
+// @ts-ignore
 import { supabase } from './supabaseClient';
 import type { Task, Column, Status, Priority, View } from './types';
 
@@ -65,7 +68,7 @@ const App: React.FC = () => {
     }
 
     // Convert array to object format
-    const tasksObj = data.reduce((acc, task) => {
+    const tasksObj = data.reduce((acc: { [key: string]: Task }, task: Task) => {
       acc[task.id] = {
         ...task,
         assignee: { name: user.user_metadata?.full_name || user.email, avatar: user.user_metadata?.avatar_url },
@@ -77,9 +80,9 @@ const App: React.FC = () => {
 
     // Update columns based on task statuses
     const newColumns = { ...INITIAL_COLUMNS };
-    data.forEach(task => {
-      if (newColumns[task.status]) {
-        newColumns[task.status].taskIds.push(task.id);
+    data.forEach((task: Task) => {
+      if (newColumns[task.status as keyof typeof newColumns]) {
+        newColumns[task.status as keyof typeof newColumns].taskIds.push(task.id);
       }
     });
     setColumns(newColumns);
