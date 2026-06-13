@@ -6,15 +6,14 @@ import {
   Flag
 } from 'lucide-react';
 import { cn } from '../utils';
-import type { View, UserProfile } from '../types';
+import type { View } from '../types';
 
 interface SidebarProps {
   activeView: View;
   onViewChange: (view: View) => void;
-  user?: UserProfile;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange, user }) => {
+const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) => {
   const navItems: { icon: any; label: View; displayLabel: string }[] = [
     { icon: LayoutDashboard, label: 'Board', displayLabel: 'Board' },
     { icon: CheckSquare, label: 'My Tasks', displayLabel: 'My Tasks' },

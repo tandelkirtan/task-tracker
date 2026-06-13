@@ -405,7 +405,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-inherit transition-colors duration-300">
-      <Sidebar activeView={activeView} onViewChange={setActiveView} user={userProfile} />
+      <Sidebar activeView={activeView} onViewChange={setActiveView} />
       
       <main className="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
         <Header user={userProfile} onLogout={logout} onSettingsClick={() => setActiveView('Settings')} />
