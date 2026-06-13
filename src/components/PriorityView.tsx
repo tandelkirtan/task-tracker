@@ -30,7 +30,6 @@ interface PriorityViewProps {
 
 const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks }) => {
   const [selectedPriority, setSelectedPriority] = useState<Priority | 'All'>('All');
-  const [timeRange, setTimeRange] = useState('This Month');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
 
@@ -77,21 +76,9 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
           <h2 className="text-2xl font-bold text-text-primary">Status Dashboard</h2>
           <p className="text-text-muted text-sm mt-1">Real-time overview of your task distribution.</p>
         </div>
-        <div className="relative">
-          <select 
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="bg-bg-card border border-border-main pl-5 pr-10 py-3 rounded-2xl text-sm font-bold text-text-primary outline-none appearance-none cursor-pointer hover:bg-bg-input transition-all shadow-sm"
-          >
-            <option>This Month</option>
-            <option>Last Month</option>
-            <option>All Time</option>
-          </select>
-          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted pointer-events-none" />
-        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
           <div key={stat.label} className="bg-bg-card p-6 rounded-[32px] border border-border-main shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
             <div>

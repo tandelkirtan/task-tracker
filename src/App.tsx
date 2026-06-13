@@ -9,6 +9,7 @@ import CalendarView from './components/CalendarView';
 import PriorityView from './components/PriorityView';
 import SettingsView from './components/SettingsView';
 import Login from './components/Login';
+import MobileBottomNav from './components/MobileBottomNav';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { supabase } from './supabaseClient';
 import type { Task, Column, Status, Priority, View } from './types';
@@ -39,15 +40,19 @@ const App: React.FC = () => {
   const [activeColumn, setActiveColumn] = useState<Status>('TODO');
   const [activeView, setActiveView] = useState<View>('Board');
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   // Fetch tasks from Supabase when user changes
   useEffect(() => {
-    if (user) {
+    if (user && !isFetching) {
       fetchTasks();
     }
-  }, [user]);
+  }, [user?.id]); // Only depend on user.id to prevent refetches
 
   const fetchTasks = async () => {
+    if (isFetching) return;
+    setIsFetching(true);
+
     const { data, error } = await supabase
       .from('tasks')
       .select('*')
@@ -55,6 +60,7 @@ const App: React.FC = () => {
 
     if (error) {
       console.error('Error fetching tasks:', error);
+      setIsFetching(false);
       return;
     }
 
@@ -77,6 +83,7 @@ const App: React.FC = () => {
       }
     });
     setColumns(newColumns);
+    setIsFetching(false);
   };
 
   const onDragEnd = async (result: DropResult) => {
@@ -283,13 +290,51 @@ const App: React.FC = () => {
     }
   };
 
+  const handleStatusChange = async (taskId: string, newStatus: Status) => {
+    const task = tasks[taskId];
+    if (!task) return;
+
+    // Update in Supabase
+    const { error } = await supabase
+      .from('tasks')
+      .update({ status: newStatus })
+      .eq('id', taskId);
+
+    if (error) {
+      console.error('Error updating task status:', error);
+      return;
+    }
+
+    // Update local state
+    setTasks({
+      ...tasks,
+      [taskId]: { ...task, status: newStatus }
+    });
+
+    // Update columns
+    const oldColumn = columns[task.status];
+    const newColumn = columns[newStatus];
+
+    setColumns({
+      ...columns,
+      [oldColumn.id]: {
+        ...oldColumn,
+        taskIds: oldColumn.taskIds.filter(id => id !== taskId)
+      },
+      [newColumn.id]: {
+        ...newColumn,
+        taskIds: [...newColumn.taskIds, taskId]
+      }
+    });
+  };
+
   const renderView = () => {
     const taskList = Object.values(tasks);
     const userProfile = {
       name: user?.user_metadata?.full_name || user?.email || 'User',
       email: user?.email || '',
       avatar: user?.user_metadata?.avatar_url,
-      bio: 'Task Manager User'
+      bio: 'Task Tracker User'
     };
 
     switch (activeView) {
@@ -302,6 +347,7 @@ const App: React.FC = () => {
             onAddTask={handleAddTask}
             onDeleteTask={onDeleteTask}
             onEditTask={handleEditTask}
+            onStatusChange={handleStatusChange}
           />
         );
       case 'My Tasks':
@@ -358,13 +404,22 @@ const App: React.FC = () => {
     <div className="flex min-h-screen bg-inherit transition-colors duration-300">
       <Sidebar activeView={activeView} onViewChange={setActiveView} user={userProfile} />
       
-      <main className="flex-1 flex flex-col min-w-0">
-        <Header user={userProfile} onLogout={logout} />
+      <main className="flex-1 flex flex-col min-w-0 pb-16 lg:pb-0">
+        <Header user={userProfile} onLogout={logout} onSettingsClick={() => setActiveView('Settings')} />
         
         <div className="flex-1 overflow-hidden">
           {renderView()}
         </div>
       </main>
+
+      <MobileBottomNav 
+        activeView={activeView} 
+        onViewChange={setActiveView} 
+        onAddTask={() => {
+          setActiveColumn('TODO');
+          setIsModalOpen(true);
+        }}
+      />
 
       <AddTaskModal
         isOpen={isModalOpen}

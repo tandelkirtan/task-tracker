@@ -66,7 +66,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask }) => {
   return (
     <div className="px-8 py-6 h-full flex flex-col overflow-hidden relative">
       <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 flex-wrap">
           <button 
             onClick={() => setCurrentDate(new Date())}
             className="px-4 py-2 bg-bg-card border border-border-main rounded-xl text-sm font-bold text-text-primary hover:bg-bg-input transition-all shadow-sm"
@@ -84,17 +84,18 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask }) => {
           <h2 className="text-xl font-bold text-text-primary">
             {format(currentDate, 'MMMM yyyy')}
           </h2>
-          <div className="flex items-center gap-2 text-text-muted text-[12px] font-bold uppercase tracking-widest bg-bg-input rounded-lg px-3 py-1.5 ml-4 border border-border-main/50">
-            <Info className="w-3.5 h-3.5" />
-            <span>Click on date to view or add task</span>
-          </div>
+        </div>
+        <div className="flex items-center gap-2 text-text-muted text-[12px] font-bold uppercase tracking-widest bg-bg-input rounded-lg px-3 py-1.5 border border-border-main/50">
+          <Info className="w-3.5 h-3.5" />
+          <span className="hidden lg:inline">Click on date to view or add task</span>
+          <span className="lg:hidden">Tap date to view/add</span>
         </div>
       </div>
 
       <div className="flex-1 bg-bg-card rounded-[40px] border border-border-main overflow-hidden flex flex-col shadow-sm">
         <div className="grid grid-cols-7 border-b border-border-main/50 bg-bg-input/30">
           {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-            <div key={day} className="py-4 text-center text-[11px] font-bold text-text-muted uppercase tracking-widest">
+            <div key={day} className="py-3 lg:py-4 text-center text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">
               {day}
             </div>
           ))}
@@ -111,24 +112,24 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask }) => {
                 key={i} 
                 onClick={() => handleDayClick(day)}
                 className={cn(
-                  "border-r border-b border-border-main/30 p-4 transition-all hover:bg-bg-input/80 cursor-pointer group relative min-h-[140px]",
+                  "border-r border-b border-border-main/30 p-2 lg:p-4 transition-all hover:bg-bg-input/80 cursor-pointer group relative min-h-[100px] lg:min-h-[140px]",
                   !isCurrentMonth ? "bg-bg-input/20 opacity-40" : ""
                 )}
               >
-                <div className="flex justify-between items-center mb-3">
+                <div className="flex justify-between items-center mb-2 lg:mb-3">
                   <span className={cn(
-                    "text-sm font-bold w-8 h-8 flex items-center justify-center rounded-full transition-all group-hover:scale-110",
+                    "text-xs lg:text-sm font-bold w-6 h-6 lg:w-8 lg:h-8 flex items-center justify-center rounded-full transition-all group-hover:scale-110",
                     isToday ? "bg-accent text-white shadow-lg shadow-accent/20" : isCurrentMonth ? "text-text-primary" : "text-text-muted/40"
                   )}>
                     {format(day, 'd')}
                   </span>
                 </div>
-                <div className="space-y-1.5">
-                  {dayTasks.slice(0, 3).map(task => (
+                <div className="space-y-1 lg:space-y-1.5">
+                  {dayTasks.slice(0, 2).map(task => (
                     <div 
                       key={task.id} 
                       className={cn(
-                        "text-[10px] p-2 rounded-xl truncate font-bold border shadow-sm",
+                        "text-[9px] lg:text-[10px] p-1.5 lg:p-2 rounded-xl truncate font-bold border shadow-sm",
                         task.priority === 'High' ? "bg-brand-red/5 text-brand-red border-brand-red/10" :
                         task.priority === 'Medium' ? "bg-brand-blue/5 text-brand-blue border-brand-blue/10" :
                         "bg-brand-green/5 text-brand-green border-brand-green/10"
@@ -137,9 +138,9 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask }) => {
                       {task.title}
                     </div>
                   ))}
-                  {dayTasks.length > 3 && (
-                    <div className="text-[9px] font-bold text-text-muted text-center pt-1 uppercase tracking-widest">
-                      + {dayTasks.length - 3} more
+                  {dayTasks.length > 2 && (
+                    <div className="text-[8px] lg:text-[9px] font-bold text-text-muted text-center pt-1 uppercase tracking-widest">
+                      + {dayTasks.length - 2} more
                     </div>
                   )}
                 </div>

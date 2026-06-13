@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, Mail, Lock, User, ArrowRight, CheckCircle } from 'lucide-react';
+import { Globe, Mail, Lock, User, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
@@ -51,10 +51,10 @@ const Login = () => {
         <div className="bg-bg-card rounded-[40px] border border-border-main shadow-2xl p-10">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-brand-blue to-accent rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-brand-blue/20">
-              <CheckCircle className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <img src="/favicon.png" alt="Task Tracker Logo" className="w-16 h-16" />
             </div>
-            <h1 className="text-2xl font-bold text-text-primary mb-2">Task Manager</h1>
+            <h1 className="text-2xl font-bold text-text-primary mb-2">Task Tracker</h1>
             <p className="text-text-muted text-xs font-medium">
               {isLogin ? 'Sign in to manage your tasks' : 'Create your account to get started'}
             </p>

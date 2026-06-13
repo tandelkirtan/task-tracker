@@ -5,9 +5,10 @@ import type { UserProfile } from '../types';
 interface HeaderProps {
   user: UserProfile;
   onLogout?: () => void;
+  onSettingsClick?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ user, onLogout, onSettingsClick }) => {
   return (
     <header className="h-20 flex items-center justify-between px-8 bg-inherit border-b border-border-main/50">
       <div /> {/* Spacer for flex-between */}
@@ -28,7 +29,10 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout }) => {
           </button>
         )}
         
-        <div className="flex items-center gap-3 ml-2 cursor-pointer group">
+        <div 
+          className="flex items-center gap-3 ml-2 cursor-pointer group"
+          onClick={onSettingsClick}
+        >
           <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-accent-soft to-accent/20 text-accent font-bold flex items-center justify-center border-2 border-transparent group-hover:border-accent transition-all overflow-hidden shadow-md group-hover:shadow-lg">
             {user.avatar ? (
               <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
-import { Calendar, Trash2, Edit2 } from 'lucide-react';
-import type { Task } from '../types';
+import { Calendar, Trash2, Edit2, MoreVertical } from 'lucide-react';
+import type { Task, Status } from '../types';
 import { cn } from '../utils';
 
 interface TaskCardProps {
@@ -9,9 +9,12 @@ interface TaskCardProps {
   index: number;
   onDelete?: (id: string) => void;
   onEdit?: (task: Task) => void;
+  onStatusChange?: (id: string, status: Status) => void;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onStatusChange }) => {
+  const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+
   const priorityColors = {
     Low: 'bg-brand-green',
     Medium: 'bg-brand-blue',
@@ -22,6 +25,13 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit }) =>
     'TODO': 'border-brand-blue/30 bg-brand-blue/5',
     'IN-PROGRESS': 'border-brand-yellow/30 bg-brand-yellow/5',
     'DONE': 'border-brand-green/30 bg-brand-green/5',
+  };
+
+  const statusOptions: Status[] = (['TODO', 'IN-PROGRESS', 'DONE'] as Status[]).filter(status => status !== task.status);
+
+  const handleStatusChange = (newStatus: Status) => {
+    onStatusChange?.(task.id, newStatus);
+    setShowStatusDropdown(false);
   };
 
   return (
@@ -51,18 +61,51 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit }) =>
                 {task.title}
               </h3>
             </div>
-            <div className="flex items-center gap-1 shrink-0 ml-2">
+            <div className="flex items-center gap-1 shrink-0 ml-2 relative">
+              {/* Status Dropdown Button - Always visible on mobile, on hover on desktop */}
+              <button 
+                onClick={(e) => { e.stopPropagation(); setShowStatusDropdown(!showStatusDropdown); }}
+                className="p-2 text-text-muted hover:text-accent hover:bg-accent/10 rounded-xl transition-all lg:opacity-0 lg:group-hover:opacity-100 hover:scale-110"
+              >
+                <MoreVertical className="w-4 h-4" />
+              </button>
+
+              {/* Status Dropdown Menu */}
+              {showStatusDropdown && (
+                <div className="absolute right-0 top-full mt-1 bg-bg-card border border-border-main rounded-xl shadow-xl z-50 min-w-[140px] overflow-hidden">
+                  {statusOptions.map((status) => (
+                    <button
+                      key={status}
+                      onClick={(e) => { e.stopPropagation(); handleStatusChange(status); }}
+                      className={cn(
+                        "w-full px-4 py-2.5 text-left text-xs font-bold transition-colors flex items-center gap-2",
+                        task.status === status 
+                          ? "bg-accent/10 text-accent" 
+                          : "text-text-muted hover:text-text-primary hover:bg-bg-input"
+                      )}
+                    >
+                      <div className={cn(
+                        "w-2 h-2 rounded-full",
+                        status === 'TODO' ? "bg-brand-blue" : 
+                        status === 'IN-PROGRESS' ? "bg-brand-yellow" : "bg-brand-green"
+                      )} />
+                      {status.replace('-', ' ')}
+                    </button>
+                  ))}
+                </div>
+              )}
+
               {task.status !== 'DONE' && (
                 <button 
                   onClick={(e) => { e.stopPropagation(); onEdit?.(task); }}
-                  className="p-2 text-text-muted hover:text-accent hover:bg-accent/10 rounded-xl transition-all opacity-0 group-hover:opacity-100 hover:scale-110"
+                  className="p-2 text-text-muted hover:text-accent hover:bg-accent/10 rounded-xl transition-all lg:opacity-0 lg:group-hover:opacity-100 hover:scale-110"
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
               )}
               <button 
                 onClick={(e) => { e.stopPropagation(); onDelete?.(task.id); }}
-                className="p-2 text-text-muted hover:text-brand-red hover:bg-brand-red/10 rounded-xl transition-all opacity-0 group-hover:opacity-100 hover:scale-110"
+                className="p-2 text-text-muted hover:text-brand-red hover:bg-brand-red/10 rounded-xl transition-all lg:opacity-0 lg:group-hover:opacity-100 hover:scale-110"
               >
                 <Trash2 className="w-4 h-4" />
               </button>

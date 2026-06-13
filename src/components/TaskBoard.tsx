@@ -13,9 +13,10 @@ interface TaskBoardProps {
   onAddTask: (status: Status) => void;
   onDeleteTask: (id: string) => void;
   onEditTask: (task: Task) => void;
+  onStatusChange?: (id: string, status: Status) => void;
 }
 
-const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, columns, onDragEnd, onAddTask, onDeleteTask, onEditTask }) => {
+const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, columns, onDragEnd, onAddTask, onDeleteTask, onEditTask, onStatusChange }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const columnOrder: Status[] = ['TODO', 'IN-PROGRESS', 'DONE'];
 
@@ -94,6 +95,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, columns, onDragEnd, onAddT
                           index={index} 
                           onDelete={onDeleteTask} 
                           onEdit={onEditTask}
+                          onStatusChange={onStatusChange}
                         />
                       ))}
                       {provided.placeholder}
@@ -116,7 +118,8 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, columns, onDragEnd, onAddT
       
       {/* Status Text at bottom */}
       <div className="py-4 text-center text-[12px] font-bold text-text-muted bg-bg-card/50 backdrop-blur-sm border-t border-border-main/50">
-        Drag and drop tasks between columns to update status
+        <span className="hidden lg:inline">Drag and drop tasks between columns, or use the menu button to change status on mobile</span>
+        <span className="lg:hidden">Tap the menu button on any task to change its status</span>
       </div>
     </div>
   );

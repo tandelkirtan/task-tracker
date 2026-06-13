@@ -4,8 +4,6 @@ import {
   Search, 
   ArrowUpDown, 
   Calendar, 
-  Tag, 
-  MoreHorizontal,
   Edit2,
   Trash2
 } from 'lucide-react';
@@ -56,7 +54,7 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
     <div className="px-8 py-6 h-full flex flex-col">
       <div className="flex items-center justify-between mb-8">
         <div className="flex gap-8 border-b border-border-main/50 w-full relative">
-          <button className="pb-4 text-sm font-bold text-accent relative">
+          <button className="hidden lg:block pb-4 text-sm font-bold text-accent relative">
             All Tasks
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-accent rounded-full shadow-[0_-2px_10px_rgba(0,82,204,0.3)]" />
           </button>
@@ -69,7 +67,7 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
                 placeholder="Search tasks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-2.5 bg-bg-card border border-border-main rounded-xl text-sm font-bold text-text-primary outline-none w-64 focus:ring-4 focus:ring-accent/10 transition-all placeholder:text-text-muted/50 shadow-sm"
+                className="pl-9 pr-4 py-2.5 bg-bg-card border border-border-main rounded-xl text-sm font-bold text-text-primary outline-none w-48 lg:w-64 focus:ring-4 focus:ring-accent/10 transition-all placeholder:text-text-muted/50 shadow-sm"
               />
             </div>
             <button 
@@ -79,7 +77,8 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
                 sortConfig?.key === 'priority' ? "text-accent border-accent/20 bg-accent-soft/30" : "text-text-primary hover:bg-bg-input"
               )}
             >
-              <ArrowUpDown className="w-4 h-4" /> Sort Priority
+              <ArrowUpDown className="w-4 h-4" />
+              <span className="hidden lg:inline">Sort Priority</span>
             </button>
           </div>
         </div>
