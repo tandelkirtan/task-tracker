@@ -64,29 +64,29 @@ const CalendarView: React.FC<CalendarViewProps> = ({ tasks, onAddTask }) => {
   const isPassed = (day: Date) => isBefore(startOfDay(day), startOfDay(new Date()));
 
   return (
-    <div className="px-8 py-6 h-full flex flex-col overflow-hidden relative">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-6 flex-wrap">
+    <div className="px-4 lg:px-8 py-4 lg:py-6 h-full flex flex-col overflow-hidden relative">
+      <div className="flex items-center justify-between mb-6 lg:mb-8">
+        <div className="flex items-center gap-4 lg:gap-6 flex-wrap">
           <button 
             onClick={() => setCurrentDate(new Date())}
-            className="px-4 py-2 bg-bg-card border border-border-main rounded-xl text-sm font-bold text-text-primary hover:bg-bg-input transition-all shadow-sm"
+            className="px-3 lg:px-4 py-2 bg-bg-card border border-border-main rounded-xl text-xs lg:text-sm font-bold text-text-primary hover:bg-bg-input transition-all shadow-sm"
           >
             Today
           </button>
           <div className="flex items-center gap-2">
-            <button onClick={prev} className="p-2 bg-bg-card border border-border-main hover:bg-bg-input rounded-xl transition-colors text-text-muted shadow-sm">
-              <ChevronLeft className="w-5 h-5" />
+            <button onClick={prev} className="p-1.5 lg:p-2 bg-bg-card border border-border-main hover:bg-bg-input rounded-xl transition-colors text-text-muted shadow-sm">
+              <ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5" />
             </button>
-            <button onClick={next} className="p-2 bg-bg-card border border-border-main hover:bg-bg-input rounded-xl transition-colors text-text-muted shadow-sm">
-              <ChevronRight className="w-5 h-5" />
+            <button onClick={next} className="p-1.5 lg:p-2 bg-bg-card border border-border-main hover:bg-bg-input rounded-xl transition-colors text-text-muted shadow-sm">
+              <ChevronRight className="w-4 h-4 lg:w-5 lg:h-5" />
             </button>
           </div>
-          <h2 className="text-xl font-bold text-text-primary">
+          <h2 className="text-lg lg:text-xl font-bold text-text-primary">
             {format(currentDate, 'MMMM yyyy')}
           </h2>
         </div>
-        <div className="flex items-center gap-2 text-text-muted text-[12px] font-bold uppercase tracking-widest bg-bg-input rounded-lg px-3 py-1.5 border border-border-main/50">
-          <Info className="w-3.5 h-3.5" />
+        <div className="flex items-center gap-2 text-text-muted text-[10px] lg:text-[12px] font-bold uppercase tracking-widest bg-bg-input rounded-lg px-2.5 lg:px-3 py-1.5 border border-border-main/50">
+          <Info className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
           <span className="hidden lg:inline">Click on date to view or add task</span>
           <span className="lg:hidden">Tap date to view/add</span>
         </div>

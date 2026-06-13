@@ -70,45 +70,45 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
   ];
 
   return (
-    <div className="px-8 py-6 space-y-8 overflow-y-auto max-h-full custom-scrollbar">
+    <div className="px-4 lg:px-8 py-4 lg:py-6 space-y-6 lg:space-y-8 overflow-y-auto max-h-full custom-scrollbar">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-text-primary">Status Dashboard</h2>
-          <p className="text-text-muted text-sm mt-1">Real-time overview of your task distribution.</p>
+          <h2 className="text-xl lg:text-2xl font-bold text-text-primary">Status Dashboard</h2>
+          <p className="text-text-muted text-xs lg:text-sm mt-1">Real-time overview of your task distribution.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-bg-card p-6 rounded-[32px] border border-border-main shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
+          <div key={stat.label} className="bg-bg-card p-4 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
             <div>
-              <p className="text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1">{stat.label}</p>
-              <h3 className="text-3xl font-bold text-text-primary">{stat.value}</h3>
-              <p className="text-[10px] font-bold text-text-muted mt-1 uppercase opacity-60">Total Tasks</p>
+              <p className="text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1">{stat.label}</p>
+              <h3 className="text-2xl lg:text-3xl font-bold text-text-primary">{stat.value}</h3>
+              <p className="text-[9px] lg:text-[10px] font-bold text-text-muted mt-1 uppercase opacity-60">Total Tasks</p>
             </div>
-            <div className={cn("p-4 rounded-[20px] transition-transform group-hover:scale-110 shadow-sm", stat.bg, stat.color)}>
-              <stat.icon className="w-8 h-8" />
+            <div className={cn("p-3 lg:p-4 rounded-[16px] lg:rounded-[20px] transition-transform group-hover:scale-110 shadow-sm", stat.bg, stat.color)}>
+              <stat.icon className="w-6 h-6 lg:w-8 lg:h-8" />
             </div>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-10">
-        <div className="bg-bg-card p-8 rounded-[40px] border border-border-main shadow-sm">
-          <h3 className="text-lg font-bold text-text-primary mb-8">Tasks Distribution</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 pb-8 lg:pb-10">
+        <div className="bg-bg-card p-6 lg:p-8 rounded-[32px] lg:rounded-[40px] border border-border-main shadow-sm">
+          <h3 className="text-base lg:text-lg font-bold text-text-primary mb-6 lg:mb-8">Tasks Distribution</h3>
           
           {/* Priority Pie Chart */}
-          <div className="mb-8">
-            <p className="text-[11px] font-bold text-text-muted uppercase tracking-widest mb-4">By Priority</p>
-            <div className="h-[280px] w-full relative">
+          <div className="mb-6 lg:mb-8">
+            <p className="text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-3 lg:mb-4">By Priority</p>
+            <div className="h-[200px] lg:h-[280px] w-full relative">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={chartData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={70}
-                    outerRadius={100}
+                    innerRadius={50}
+                    outerRadius={70}
                     paddingAngle={10}
                     dataKey="value"
                     stroke="none"
@@ -124,38 +124,38 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
                 </PieChart>
               </ResponsiveContainer>
               <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-4xl font-bold text-text-primary">{tasks.length}</span>
-                <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest mt-1">Total</span>
+                <span className="text-3xl lg:text-4xl font-bold text-text-primary">{tasks.length}</span>
+                <span className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest mt-1">Total</span>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3 mt-4">
+            <div className="grid grid-cols-2 gap-2 lg:gap-3 mt-3 lg:mt-4">
               {chartData.map(item => (
-                <div key={item.name} className="flex items-center justify-between p-3 rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
+                <div key={item.name} className="flex items-center justify-between p-2 lg:p-3 rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
-                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.name}</span>
+                    <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
+                    <span className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.name}</span>
                   </div>
-                  <span className="text-xs font-bold text-text-primary">{Math.round((item.value / tasks.length) * 100) || 0}%</span>
+                  <span className="text-[10px] lg:text-xs font-bold text-text-primary">{Math.round((item.value / tasks.length) * 100) || 0}%</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Status Bar Chart */}
-          <div className="border-t border-border-main/50 pt-8">
-            <p className="text-[11px] font-bold text-text-muted uppercase tracking-widest mb-4">By Status</p>
-            <div className="h-[200px] w-full">
+          <div className="border-t border-border-main/50 pt-6 lg:pt-8">
+            <p className="text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-3 lg:mb-4">By Status</p>
+            <div className="h-[150px] lg:h-[200px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={statusChartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-main)" vertical={false} />
                   <XAxis 
                     dataKey="name" 
-                    tick={{ fill: 'var(--text-muted)', fontSize: 10, fontWeight: 'bold' }}
+                    tick={{ fill: 'var(--text-muted)', fontSize: 9, fontWeight: 'bold' }}
                     axisLine={{ stroke: 'var(--border-main)' }}
                     tickLine={{ stroke: 'var(--border-main)' }}
                   />
                   <YAxis 
-                    tick={{ fill: 'var(--text-muted)', fontSize: 10, fontWeight: 'bold' }}
+                    tick={{ fill: 'var(--text-muted)', fontSize: 9, fontWeight: 'bold' }}
                     axisLine={{ stroke: 'var(--border-main)' }}
                     tickLine={{ stroke: 'var(--border-main)' }}
                   />
@@ -171,29 +171,29 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-3 gap-3 mt-4">
+            <div className="grid grid-cols-3 gap-2 lg:gap-3 mt-3 lg:mt-4">
               {statusChartData.map(item => (
-                <div key={item.name} className="flex items-center justify-between p-3 rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
+                <div key={item.name} className="flex items-center justify-between p-2 lg:p-3 rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
-                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.name}</span>
+                    <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
+                    <span className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.name}</span>
                   </div>
-                  <span className="text-xs font-bold text-text-primary">{item.value}</span>
+                  <span className="text-[10px] lg:text-xs font-bold text-text-primary">{item.value}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="bg-bg-card p-8 rounded-[40px] border border-border-main shadow-sm flex flex-col">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <h3 className="text-lg font-bold text-text-primary">Tasks</h3>
+        <div className="bg-bg-card p-6 lg:p-8 rounded-[32px] lg:rounded-[40px] border border-border-main shadow-sm flex flex-col">
+          <div className="flex items-center justify-between mb-6 lg:mb-8">
+            <div className="flex items-center gap-3 lg:gap-4">
+              <h3 className="text-base lg:text-lg font-bold text-text-primary">Tasks</h3>
               <div className="relative">
                 <select 
                   value={selectedPriority}
                   onChange={(e) => setSelectedPriority(e.target.value as any)}
-                  className="bg-bg-input border border-border-main/50 pl-3 pr-8 py-1.5 rounded-lg text-xs font-bold text-accent outline-none appearance-none cursor-pointer hover:bg-bg-input/80 transition-all shadow-sm"
+                  className="bg-bg-input border border-border-main/50 pl-3 pr-8 py-1.5 rounded-lg text-xs lg:text-sm font-bold text-accent outline-none appearance-none cursor-pointer hover:bg-bg-input/80 transition-all shadow-sm"
                 >
                   <option value="All">All Priority</option>
                   <option value="High">High</option>
@@ -205,23 +205,23 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
             </div>
             <button 
               onClick={onNavigateToMyTasks}
-              className="text-xs font-bold text-accent hover:underline uppercase tracking-widest"
+              className="text-xs lg:text-sm font-bold text-accent hover:underline uppercase tracking-widest"
             >
               View all tasks
             </button>
           </div>
           
-          <div className="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
+          <div className="space-y-3 lg:space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
             {paginatedTasks.length > 0 ? (
               paginatedTasks.map(task => (
-                <div key={task.id} className="flex items-center justify-between p-5 rounded-[24px] border border-border-main/30 bg-bg-input/20 hover:bg-bg-input/50 transition-all group">
-                  <div className="flex-1 min-w-0 pr-4">
-                    <h4 className="font-bold text-text-primary text-sm group-hover:text-accent transition-colors truncate">{task.title}</h4>
-                    <p className="text-[11px] font-bold text-text-muted mt-1 uppercase tracking-widest opacity-60">Due {task.date}</p>
+                <div key={task.id} className="flex items-center justify-between p-3 lg:p-5 rounded-[20px] lg:rounded-[24px] border border-border-main/30 bg-bg-input/20 hover:bg-bg-input/50 transition-all group">
+                  <div className="flex-1 min-w-0 pr-3 lg:pr-4">
+                    <h4 className="font-bold text-text-primary text-xs lg:text-sm group-hover:text-accent transition-colors truncate">{task.title}</h4>
+                    <p className="text-[10px] lg:text-[11px] font-bold text-text-muted mt-1 uppercase tracking-widest opacity-60">Due {task.date}</p>
                   </div>
                   <div className="text-right shrink-0">
                     <span className={cn(
-                      "text-[9px] font-bold px-3 py-1.5 rounded-lg uppercase tracking-widest inline-block shadow-sm",
+                      "text-[9px] lg:text-[9px] font-bold px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg uppercase tracking-widest inline-block shadow-sm",
                       task.status === 'DONE' ? "bg-brand-green/10 text-brand-green border border-brand-green/20" : 
                       task.status === 'IN-PROGRESS' ? "bg-brand-yellow/10 text-brand-yellow border border-brand-yellow/20" : 
                       "bg-bg-input text-text-muted border border-border-main/50"
@@ -232,26 +232,26 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
                 </div>
               ))
             ) : (
-              <div className="flex flex-col items-center justify-center py-24 text-text-muted opacity-50">
-                <CheckCircle2 className="w-16 h-16 mb-4 opacity-20" />
-                <p className="font-bold text-xs uppercase tracking-widest">No tasks matching this filter</p>
+              <div className="flex flex-col items-center justify-center py-16 lg:py-24 text-text-muted opacity-50">
+                <CheckCircle2 className="w-12 h-12 lg:w-16 lg:h-16 mb-4 opacity-20" />
+                <p className="font-bold text-[10px] lg:text-xs uppercase tracking-widest">No tasks matching this filter</p>
               </div>
             )}
           </div>
 
           {/* Pagination Controls */}
           {filteredTasks.length > itemsPerPage && (
-            <div className="flex items-center justify-between pt-4 border-t border-border-main/50 mt-4">
-              <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">
+            <div className="flex items-center justify-between pt-3 lg:pt-4 border-t border-border-main/50 mt-3 lg:mt-4">
+              <p className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest">
                 Showing {((currentPage - 1) * itemsPerPage) + 1}-{Math.min(currentPage * itemsPerPage, filteredTasks.length)} of {filteredTasks.length}
               </p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg bg-bg-input border border-border-main/50 text-text-muted hover:text-text-primary hover:bg-bg-card disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  className="p-1.5 lg:p-2 rounded-lg bg-bg-input border border-border-main/50 text-text-muted hover:text-text-primary hover:bg-bg-card disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                 </button>
                 <div className="flex items-center gap-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (

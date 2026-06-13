@@ -51,8 +51,8 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
   );
 
   return (
-    <div className="px-8 py-6 h-full flex flex-col">
-      <div className="flex items-center justify-between mb-8">
+    <div className="px-4 lg:px-8 py-4 lg:py-6 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-6 lg:mb-8">
         <div className="flex gap-8 border-b border-border-main/50 w-full relative">
           <button className="hidden lg:block pb-4 text-sm font-bold text-accent relative">
             All Tasks
@@ -84,50 +84,50 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
         </div>
       </div>
 
-      <div className="bg-bg-card rounded-[32px] border border-border-main overflow-hidden flex-1 shadow-sm">
+      <div className="bg-bg-card rounded-[24px] lg:rounded-[32px] border border-border-main overflow-hidden flex-1 shadow-sm">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-border-main bg-bg-input">
-              <th className="px-6 py-5 text-[11px] font-bold text-text-muted uppercase tracking-widest">Task Name</th>
-              <th className="px-6 py-5 text-[11px] font-bold text-text-muted uppercase tracking-widest">Priority</th>
-              <th className="px-6 py-5 text-[11px] font-bold text-text-muted uppercase tracking-widest">Status</th>
-              <th className="px-6 py-5 text-[11px] font-bold text-text-muted uppercase tracking-widest">Due Date</th>
-              <th className="px-6 py-5 text-[11px] font-bold text-text-muted uppercase tracking-widest text-right">Actions</th>
+              <th className="px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Task Name</th>
+              <th className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Priority</th>
+              <th className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Status</th>
+              <th className="hidden md:table-cell px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Due Date</th>
+              <th className="px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-main/30">
             {filteredTasks.map((task) => (
               <tr key={task.id} className="hover:bg-bg-input/50 transition-colors group">
-                <td className="px-6 py-5">
-                  <div className="flex items-center gap-4">
+                <td className="px-4 lg:px-6 py-3 lg:py-5">
+                  <div className="flex items-center gap-3 lg:gap-4">
                     <div className={cn(
-                      "w-1.5 h-10 rounded-full shrink-0 shadow-sm",
+                      "w-1 h-6 lg:h-10 rounded-full shrink-0 shadow-sm",
                       task.priority === 'High' ? "bg-brand-red" :
                       task.priority === 'Medium' ? "bg-brand-blue" :
                       "bg-brand-green"
                     )} />
                     <span className={cn(
-                      "font-bold text-text-primary text-sm truncate group-hover:text-accent transition-colors",
+                      "font-bold text-text-primary text-xs lg:text-sm truncate group-hover:text-accent transition-colors",
                       task.status === 'DONE' && "line-through opacity-50"
                     )}>
                       {task.title}
                     </span>
                   </div>
                 </td>
-                <td className="px-6 py-5">
+                <td className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5">
                   <div className="flex items-center gap-2">
                     <div className={cn(
-                      "w-2.5 h-2.5 rounded-full shadow-sm",
+                      "w-2 h-2 lg:w-2.5 lg:h-2.5 rounded-full shadow-sm",
                       task.priority === 'High' ? "bg-brand-red" :
                       task.priority === 'Medium' ? "bg-brand-blue" :
                       "bg-brand-green"
                     )} />
-                    <span className="text-xs font-bold text-text-primary uppercase tracking-wider">{task.priority}</span>
+                    <span className="text-[10px] lg:text-xs font-bold text-text-primary uppercase tracking-wider">{task.priority}</span>
                   </div>
                 </td>
-                <td className="px-6 py-5">
+                <td className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5">
                   <span className={cn(
-                    "text-[10px] font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider inline-block shadow-sm",
+                    "text-[9px] lg:text-[10px] font-bold px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg uppercase tracking-wider inline-block shadow-sm",
                     task.status === 'DONE' ? "bg-brand-green/10 text-brand-green border border-brand-green/20" :
                     task.status === 'IN-PROGRESS' ? "bg-brand-yellow/10 text-brand-yellow border border-brand-yellow/20" :
                     "bg-bg-input text-text-muted border border-border-main/50"
@@ -135,27 +135,27 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
                     {task.status.replace('-', ' ')}
                   </span>
                 </td>
-                <td className="px-6 py-5">
-                  <div className="flex items-center gap-2 text-text-muted text-xs font-bold uppercase tracking-widest">
-                    <Calendar className="w-4 h-4" />
+                <td className="hidden md:table-cell px-4 lg:px-6 py-3 lg:py-5">
+                  <div className="flex items-center gap-2 text-text-muted text-[10px] lg:text-xs font-bold uppercase tracking-widest">
+                    <Calendar className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                     <span>{task.date}</span>
                   </div>
                 </td>
-                <td className="px-6 py-5 text-right">
+                <td className="px-4 lg:px-6 py-3 lg:py-5 text-right">
                   <div className="flex items-center justify-end gap-1">
                     {task.status !== 'DONE' && (
                       <button 
                         onClick={() => onEdit(task)}
-                        className="p-2 text-text-muted hover:text-accent hover:bg-accent/10 rounded-xl transition-all"
+                        className="p-1.5 lg:p-2 text-text-muted hover:text-accent hover:bg-accent/10 rounded-xl transition-all"
                       >
-                        <Edit2 className="w-4 h-4" />
+                        <Edit2 className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                       </button>
                     )}
                     <button 
                       onClick={() => onDelete(task.id)}
-                      className="p-2 text-text-muted hover:text-brand-red hover:bg-brand-red/10 rounded-xl transition-all"
+                      className="p-1.5 lg:p-2 text-text-muted hover:text-brand-red hover:bg-brand-red/10 rounded-xl transition-all"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
                     </button>
                   </div>
                 </td>
@@ -164,16 +164,16 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
           </tbody>
         </table>
         {filteredTasks.length === 0 && (
-          <div className="py-24 text-center">
-            <div className="bg-bg-input/50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-border-main/50">
-              <Search className="w-8 h-8 text-text-muted opacity-30" />
+          <div className="py-16 lg:py-24 text-center">
+            <div className="bg-bg-input/50 w-12 h-12 lg:w-16 lg:h-16 rounded-full flex items-center justify-center mx-auto mb-4 border border-border-main/50">
+              <Search className="w-6 h-6 lg:w-8 lg:h-8 text-text-muted opacity-30" />
             </div>
-            <p className="text-text-muted font-bold text-sm uppercase tracking-widest opacity-50 italic">No matching tasks found</p>
+            <p className="text-text-muted font-bold text-xs lg:text-sm uppercase tracking-widest opacity-50 italic">No matching tasks found</p>
           </div>
         )}
       </div>
-      <div className="mt-6 flex items-center justify-between text-text-muted text-[11px] font-bold uppercase tracking-widest px-4">
-        <span className="bg-bg-card px-3 py-1.5 rounded-lg border border-border-main/50 shadow-sm">
+      <div className="mt-4 lg:mt-6 flex items-center justify-between text-text-muted text-[10px] lg:text-[11px] font-bold uppercase tracking-widest px-4">
+        <span className="bg-bg-card px-2.5 lg:px-3 py-1.5 rounded-lg border border-border-main/50 shadow-sm">
           Showing {filteredTasks.length} of {tasks.length} tasks
         </span>
       </div>

@@ -360,7 +360,7 @@ const App: React.FC = () => {
       case 'Priority':
         return <PriorityView tasks={taskList} onNavigateToMyTasks={() => setActiveView('My Tasks')} />;
       case 'Settings':
-        return <SettingsView user={userProfile} onUpdateUser={() => {}} />;
+        return <SettingsView user={userProfile} onUpdateUser={() => {}} onLogout={logout} />;
       default:
         return null;
     }

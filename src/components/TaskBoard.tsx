@@ -37,9 +37,9 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, columns, onDragEnd, onAddT
   };
 
   return (
-    <div className="px-8 py-6 flex flex-col h-full overflow-hidden">
+    <div className="px-4 lg:px-8 py-4 lg:py-6 flex flex-col h-full overflow-hidden">
       {/* Search and Add Task Row */}
-      <div className="mb-8 flex items-center justify-between gap-4">
+      <div className="mb-6 lg:mb-8 hidden lg:flex items-center justify-between gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
           <input
@@ -52,21 +52,21 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, columns, onDragEnd, onAddT
         </div>
         <button 
           onClick={() => onAddTask('TODO')}
-          className="bg-gradient-to-r from-brand-blue to-accent text-white px-8 py-3 rounded-2xl font-bold text-sm hover:shadow-xl hover:shadow-brand-blue/20 transition-all active:scale-[0.98] whitespace-nowrap"
+          className="bg-gradient-to-r from-brand-blue to-accent text-white px-6 lg:px-8 py-3 rounded-2xl font-bold text-sm hover:shadow-xl hover:shadow-brand-blue/20 transition-all active:scale-[0.98] whitespace-nowrap"
         >
           Add Task
         </button>
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex gap-8 flex-1 overflow-x-auto pb-6 custom-scrollbar">
+        <div className="flex gap-4 lg:gap-8 flex-1 overflow-x-auto pb-4 lg:pb-6 custom-scrollbar">
           {columnOrder.map((columnId) => {
             const column = columns[columnId];
             const columnTaskIds = filteredTaskIds(column.taskIds);
 
             return (
-              <div key={columnId} className="flex flex-col w-[380px] min-w-[380px]">
-                <div className="flex items-center justify-between mb-6 px-2">
+              <div key={columnId} className="flex flex-col w-[320px] lg:w-[380px] min-w-[320px] lg:min-w-[380px]">
+                <div className="flex items-center justify-between mb-4 lg:mb-6 px-2">
                   <div className="flex items-center gap-3">
                     <h3 className="font-bold text-text-primary tracking-tight text-base">{column.title}</h3>
                     <span className={cn(
@@ -84,7 +84,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasks, columns, onDragEnd, onAddT
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                       className={cn(
-                        "flex-1 rounded-[32px] p-5 transition-all duration-300 custom-scrollbar overflow-y-auto border",
+                        "flex-1 rounded-[32px] p-4 lg:p-5 transition-all duration-300 custom-scrollbar overflow-y-auto border",
                         snapshot.isDraggingOver ? "bg-bg-input/50 border-accent/30 ring-4 ring-accent/10" : "bg-bg-input/30 border-border-main/50"
                       )}
                     >

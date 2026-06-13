@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import type { UserProfile } from '../types';
 
 interface HeaderProps {
@@ -10,30 +10,28 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ user, onLogout, onSettingsClick }) => {
   return (
-    <header className="h-20 flex items-center justify-between px-8 bg-inherit border-b border-border-main/50">
-      <div /> {/* Spacer for flex-between */}
+    <header className="h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8 bg-inherit border-b border-border-main/50">
+      <div className="flex items-center gap-3">
+        <img src="/favicon.png" alt="Task Tracker Logo" className="w-8 h-8 lg:w-10 lg:h-10" />
+        <span className="text-lg lg:text-xl font-bold text-text-primary tracking-tight">Task Tracker</span>
+      </div>
       
-      <div className="flex items-center gap-6">
-        <button className="p-2.5 bg-bg-card rounded-xl shadow-md text-text-muted hover:text-text-primary transition-colors relative border border-border-main/50 hover:shadow-lg hover:scale-105">
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-brand-red rounded-full border-2 border-bg-card" />
-        </button>
-        
+      <div className="flex items-center gap-4 lg:gap-6">
         {onLogout && (
           <button 
             onClick={onLogout}
-            className="flex items-center gap-2 px-4 py-2.5 bg-bg-card rounded-xl shadow-md text-text-muted hover:text-brand-red hover:bg-brand-red/5 transition-all border border-border-main/50 hover:border-brand-red/20"
+            className="hidden lg:flex items-center gap-2 px-4 py-2.5 bg-bg-card rounded-xl shadow-md text-text-muted hover:text-brand-red hover:bg-brand-red/5 transition-all border border-border-main/50 hover:border-brand-red/20"
           >
             <LogOut className="w-4 h-4" />
-            <span className="text-sm font-bold hidden sm:block">Logout</span>
+            <span className="text-sm font-bold">Logout</span>
           </button>
         )}
         
         <div 
-          className="flex items-center gap-3 ml-2 cursor-pointer group"
+          className="flex items-center gap-2 lg:gap-3 ml-2 cursor-pointer group"
           onClick={onSettingsClick}
         >
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-accent-soft to-accent/20 text-accent font-bold flex items-center justify-center border-2 border-transparent group-hover:border-accent transition-all overflow-hidden shadow-md group-hover:shadow-lg">
+          <div className="w-9 h-9 lg:w-11 lg:h-11 rounded-xl bg-gradient-to-br from-accent-soft to-accent/20 text-accent font-bold flex items-center justify-center border-2 border-transparent group-hover:border-accent transition-all overflow-hidden shadow-md group-hover:shadow-lg">
             {user.avatar ? (
               <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
             ) : (
