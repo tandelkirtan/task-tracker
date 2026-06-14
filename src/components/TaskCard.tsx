@@ -3,6 +3,7 @@ import { Draggable } from '@hello-pangea/dnd';
 import { Calendar, Trash2, Edit2, MoreVertical } from 'lucide-react';
 import type { Task, Status } from '../types';
 import { cn } from '../utils';
+import ConfirmModal from './ConfirmModal';
 
 interface TaskCardProps {
   task: Task;
@@ -15,6 +16,7 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onStatusChange, isAnimating }) => {
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -53,20 +55,30 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onSt
     setShowStatusDropdown(false);
   };
 
+  const handleDelete = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    setShowDeleteConfirm(false);
+    onDelete?.(task.id);
+  };
+
   return (
-    <Draggable draggableId={task.id} index={index}>
-      {(provided, snapshot) => (
-        <div
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          className={cn(
-            "rounded-2xl p-5 mb-4 shadow-sm border transition-all duration-300 group relative overflow-hidden",
-            statusColors[task.status],
-            snapshot.isDragging ? "shadow-2xl ring-4 ring-accent/20 scale-[1.02] z-50 rotate-1" : "hover:shadow-xl hover:border-accent/40 hover:-translate-y-0.5",
-            isAnimating && "lg:hidden animate-pulse scale-95 opacity-50"
-          )}
-        >
+    <>
+      <Draggable draggableId={task.id} index={index}>
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            className={cn(
+              "rounded-2xl p-5 mb-4 shadow-sm border transition-all duration-300 group relative overflow-hidden",
+              statusColors[task.status],
+              snapshot.isDragging ? "shadow-2xl ring-4 ring-accent/20 scale-[1.02] z-50 rotate-1" : "hover:shadow-xl hover:border-accent/40 hover:-translate-y-0.5",
+              isAnimating && "lg:hidden animate-pulse scale-95 opacity-50"
+            )}
+          >
           <div className="absolute top-0 left-0 w-1 h-full rounded-l-lg opacity-30" 
                style={{ backgroundColor: task.status === 'TODO' ? 'var(--color-brand-blue)' : 
                                        task.status === 'IN-PROGRESS' ? 'var(--color-brand-yellow)' : 
@@ -124,7 +136,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onSt
                 </button>
               )}
               <button 
-                onClick={(e) => { e.stopPropagation(); onDelete?.(task.id); }}
+                onClick={(e) => { e.stopPropagation(); handleDelete(); }}
                 className="p-2 text-text-muted hover:text-brand-red hover:bg-brand-red/10 rounded-xl transition-all lg:opacity-0 lg:group-hover:opacity-100 hover:scale-110"
               >
                 <Trash2 className="w-4 h-4" />
@@ -154,6 +166,18 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onSt
         </div>
       )}
     </Draggable>
+
+    <ConfirmModal
+      isOpen={showDeleteConfirm}
+      onClose={() => setShowDeleteConfirm(false)}
+      onConfirm={confirmDelete}
+      title="Delete Task"
+      message="Are you sure you want to delete this task? This action cannot be undone."
+      confirmText="Delete"
+      cancelText="Cancel"
+      variant="danger"
+    />
+    </>
   );
 };
 

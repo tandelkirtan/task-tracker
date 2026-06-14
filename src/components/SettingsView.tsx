@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   User,
   Bell,
@@ -10,6 +10,7 @@ import {
   LogOut
 } from 'lucide-react';
 import type { UserProfile } from '../types';
+import ConfirmModal from './ConfirmModal';
 
 interface SettingsViewProps {
   user: UserProfile;
@@ -22,6 +23,16 @@ const SettingsView: React.FC<SettingsViewProps> = ({
   onUpdateUser,
   onLogout
 }) => {
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const handleLogout = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutConfirm(false);
+    onLogout?.();
+  };
 
   return (
     <div className="px-4 lg:px-8 py-4 lg:py-6 h-full overflow-y-auto custom-scrollbar">
@@ -120,16 +131,42 @@ const SettingsView: React.FC<SettingsViewProps> = ({
             {/* Mobile Logout Button */}
             {onLogout && (
               <button
-                onClick={onLogout}
+                onClick={handleLogout}
                 className="lg:hidden w-full mt-6 flex items-center justify-center gap-2 p-4 bg-brand-red/5 rounded-[20px] border border-brand-red/10 hover:bg-brand-red/10 transition-all group shadow-sm"
               >
                 <LogOut className="w-4 h-4 text-brand-red" />
                 <span className="text-sm font-bold text-brand-red">Logout</span>
               </button>
             )}
+
+            {/* Mobile Footer */}
+            <div className="lg:hidden mt-8 pt-6 border-t border-border-main/30">
+              <p className="text-center text-text-muted text-xs font-bold">
+                Made by{' '}
+                <a 
+                  href="https://kirtandel.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-brand-blue transition-colors"
+                >
+                  kirtandel
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={showLogoutConfirm}
+        onClose={() => setShowLogoutConfirm(false)}
+        onConfirm={confirmLogout}
+        title="Logout"
+        message="Are you sure you want to logout? You'll need to sign in again to access your tasks."
+        confirmText="Logout"
+        cancelText="Cancel"
+        variant="danger"
+      />
     </div>
   );
 };

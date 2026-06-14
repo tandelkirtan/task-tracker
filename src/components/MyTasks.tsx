@@ -8,6 +8,7 @@ import {
   Trash2
 } from 'lucide-react';
 import { cn } from '../utils';
+import ConfirmModal from './ConfirmModal';
 
 interface MyTasksProps {
   tasks: Task[];
@@ -18,6 +19,8 @@ interface MyTasksProps {
 const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortConfig, setSortConfig] = useState<{ key: keyof Task; direction: 'asc' | 'desc' } | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
 
   const priorityOrder = { 'High': 3, 'Medium': 2, 'Low': 1 };
 
@@ -50,8 +53,22 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
     task.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const handleDelete = (taskId: string) => {
+    setTaskToDelete(taskId);
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    if (taskToDelete) {
+      onDelete(taskToDelete);
+    }
+    setShowDeleteConfirm(false);
+    setTaskToDelete(null);
+  };
+
   return (
-    <div className="px-4 lg:px-8 py-4 lg:py-6 h-full flex flex-col">
+    <>
+      <div className="px-4 lg:px-8 py-4 lg:py-6 h-full flex flex-col">
       <div className="flex items-center justify-between mb-3 lg:mb-8">
         <div className="flex gap-8 border-b border-border-main/50 w-full relative">
           <button className="hidden lg:block pb-4 text-sm font-bold text-accent relative">
@@ -177,7 +194,7 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
                       </button>
                     )}
                     <button 
-                      onClick={() => onDelete(task.id)}
+                      onClick={() => handleDelete(task.id)}
                       className="p-1.5 lg:p-2 text-text-muted hover:text-brand-red hover:bg-brand-red/10 rounded-xl transition-all"
                     >
                       <Trash2 className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
@@ -203,6 +220,18 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
         </span>
       </div>
     </div>
+
+    <ConfirmModal
+      isOpen={showDeleteConfirm}
+      onClose={() => setShowDeleteConfirm(false)}
+      onConfirm={confirmDelete}
+      title="Delete Task"
+      message="Are you sure you want to delete this task? This action cannot be undone."
+      confirmText="Delete"
+      cancelText="Cancel"
+      variant="danger"
+    />
+    </>
   );
 };
 

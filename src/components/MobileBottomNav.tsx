@@ -29,11 +29,11 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeView, onViewCha
               className={cn(
                 "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all",
                 activeView === item.label
-                  ? "text-accent bg-accent/10"
+                  ? "text-accent"
                   : "text-text-muted hover:text-text-primary hover:bg-bg-input/50"
               )}
             >
-              <item.icon className="w-5 h-5" />
+              <item.icon className={cn("w-5 h-5", activeView === item.label && "stroke-[2.5]")} />
               <span className="text-[10px] font-bold">{item.displayLabel}</span>
             </button>
           ))}
@@ -56,11 +56,11 @@ const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ activeView, onViewCha
               className={cn(
                 "flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all",
                 activeView === item.label
-                  ? "text-accent bg-accent/10"
+                  ? "text-accent"
                   : "text-text-muted hover:text-text-primary hover:bg-bg-input/50"
               )}
             >
-              <item.icon className="w-5 h-5" />
+              <item.icon className={cn("w-5 h-5", activeView === item.label && "stroke-[2.5]")} />
               <span className="text-[10px] font-bold">{item.displayLabel}</span>
             </button>
           ))}

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LogOut } from 'lucide-react';
 import type { UserProfile } from '../types';
+import ConfirmModal from './ConfirmModal';
 
 interface HeaderProps {
   user: UserProfile;
@@ -9,8 +10,19 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ user, onLogout, onSettingsClick }) => {
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const handleLogout = () => {
+    setShowLogoutConfirm(true);
+  };
+
+  const confirmLogout = () => {
+    setShowLogoutConfirm(false);
+    onLogout?.();
+  };
   return (
-    <header className="h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8 bg-inherit border-b border-border-main/50">
+    <>
+      <header className="h-16 lg:h-20 flex items-center justify-between px-4 lg:px-8 bg-inherit border-b border-border-main/50">
       <div className="flex items-center gap-3">
         <img src="/favicon.png" alt="Task Tracker Logo" className="w-8 h-8 lg:w-10 lg:h-10" />
         <span className="text-lg lg:text-xl font-bold text-text-primary tracking-tight">Task Tracker</span>
@@ -19,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onSettingsClick }) => {
       <div className="flex items-center gap-4 lg:gap-6">
         {onLogout && (
           <button 
-            onClick={onLogout}
+            onClick={handleLogout}
             className="hidden lg:flex items-center gap-2 px-4 py-2.5 bg-bg-card rounded-xl shadow-md text-text-muted hover:text-brand-red hover:bg-brand-red/5 transition-all border border-border-main/50 hover:border-brand-red/20"
           >
             <LogOut className="w-4 h-4" />
@@ -45,6 +57,18 @@ const Header: React.FC<HeaderProps> = ({ user, onLogout, onSettingsClick }) => {
         </div>
       </div>
     </header>
+    
+    <ConfirmModal
+      isOpen={showLogoutConfirm}
+      onClose={() => setShowLogoutConfirm(false)}
+      onConfirm={confirmLogout}
+      title="Logout"
+      message="Are you sure you want to logout? You'll need to sign in again to access your tasks."
+      confirmText="Logout"
+      cancelText="Cancel"
+      variant="danger"
+    />
+  </>
   );
 };
 

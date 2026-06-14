@@ -93,6 +93,9 @@ export const AuthProvider = ({ children }) => {
       console.error('Error logging out:', error.message);
       throw error;
     }
+    // Clear localStorage on logout
+    localStorage.removeItem('activeView');
+    localStorage.removeItem('activeMobileColumn');
   };
 
   return (

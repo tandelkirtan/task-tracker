@@ -70,24 +70,25 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
   ];
 
   return (
-    <div className="px-4 lg:px-8 py-4 lg:py-6 space-y-6 lg:space-y-8 overflow-y-auto max-h-full custom-scrollbar">
-      <div className="flex items-center justify-between">
+    <div className="px-4 lg:px-8 py-2 lg:py-6 space-y-6 lg:space-y-8 overflow-y-auto max-h-full custom-scrollbar">
+      <div className="flex items-center justify-between mb-2">
         <div>
           <h2 className="text-xl lg:text-2xl font-bold text-text-primary">Status Dashboard</h2>
-          <p className="text-text-muted text-xs lg:text-sm mt-1">Real-time overview of your task distribution.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-6">
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-bg-card p-4 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
+          <div key={stat.label} className="bg-bg-card p-2.5 lg:p-6 rounded-[16px] lg:rounded-[32px] border border-border-main shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
             <div>
-              <p className="text-[9px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1 whitespace-nowrap">{stat.label}</p>
-              <h3 className="text-2xl lg:text-3xl font-bold text-text-primary">{stat.value}</h3>
-              <p className="text-[9px] lg:text-[10px] font-bold text-text-muted mt-1 uppercase opacity-60">Total Tasks</p>
+              <p className="text-[8px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-0.5 whitespace-nowrap">{stat.label}</p>
+              <div className="flex items-baseline gap-1 lg:block">
+                <h3 className="text-xl lg:text-3xl font-bold text-text-primary">{stat.value}</h3>
+                <p className="text-[8px] lg:text-[10px] font-bold text-text-muted lg:mt-0.5 uppercase opacity-60">Total Tasks</p>
+              </div>
             </div>
-            <div className={cn("p-2 lg:p-4 rounded-[12px] lg:rounded-[20px] transition-transform group-hover:scale-110 shadow-sm", stat.bg, stat.color)}>
-              <stat.icon className="w-4 h-4 lg:w-8 lg:h-8" />
+            <div className={cn("p-1.5 lg:p-4 rounded-[8px] lg:rounded-[20px] transition-transform group-hover:scale-110 shadow-sm", stat.bg, stat.color)}>
+              <stat.icon className="w-3 h-3 lg:w-8 lg:h-8" />
             </div>
           </div>
         ))}
@@ -175,10 +176,10 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
                 </BarChart>
               </ResponsiveContainer>
             </div>
-            <div className="grid grid-cols-3 gap-2 lg:gap-3 mt-3 lg:mt-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-1.5 lg:gap-3 mt-2 lg:mt-4">
               {statusChartData.map(item => (
-                <div key={item.name} className="flex items-center justify-between p-2 lg:p-3 rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
-                  <div className="flex items-center gap-2">
+                <div key={item.name} className="flex items-center justify-between p-1.5 lg:p-3 rounded-[12px] lg:rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
+                  <div className="flex items-center gap-1 lg:gap-2">
                     <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
                     <span className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.name}</span>
                   </div>
