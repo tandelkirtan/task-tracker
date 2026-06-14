@@ -41,7 +41,10 @@ const App: React.FC = () => {
   const [columns, setColumns] = useState<{ [key in Status]: Column }>(INITIAL_COLUMNS);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeColumn, setActiveColumn] = useState<Status>('TODO');
-  const [activeView, setActiveView] = useState<View>('Board');
+  const [activeView, setActiveView] = useState<View>(() => {
+    const savedView = localStorage.getItem('activeView');
+    return savedView ? (savedView as View) : 'Board';
+  });
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [isFetching, setIsFetching] = useState(false);
 
@@ -51,6 +54,11 @@ const App: React.FC = () => {
       fetchTasks();
     }
   }, [user?.id]); // Only depend on user.id to prevent refetches
+
+  // Save activeView to localStorage
+  useEffect(() => {
+    localStorage.setItem('activeView', activeView);
+  }, [activeView]);
 
   const fetchTasks = async () => {
     if (isFetching) return;

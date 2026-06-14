@@ -10,10 +10,29 @@ interface TaskCardProps {
   onDelete?: (id: string) => void;
   onEdit?: (task: Task) => void;
   onStatusChange?: (id: string, status: Status) => void;
+  isAnimating?: boolean;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onStatusChange }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onStatusChange, isAnimating }) => {
   const [showStatusDropdown, setShowStatusDropdown] = useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowStatusDropdown(false);
+      }
+    };
+
+    if (showStatusDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showStatusDropdown]);
 
   const priorityColors = {
     Low: 'bg-brand-green',
@@ -44,7 +63,8 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onSt
           className={cn(
             "rounded-2xl p-5 mb-4 shadow-sm border transition-all duration-300 group relative overflow-hidden",
             statusColors[task.status],
-            snapshot.isDragging ? "shadow-2xl ring-4 ring-accent/20 scale-[1.02] z-50 rotate-1" : "hover:shadow-xl hover:border-accent/40 hover:-translate-y-0.5"
+            snapshot.isDragging ? "shadow-2xl ring-4 ring-accent/20 scale-[1.02] z-50 rotate-1" : "hover:shadow-xl hover:border-accent/40 hover:-translate-y-0.5",
+            isAnimating && "lg:hidden animate-pulse scale-95 opacity-50"
           )}
         >
           <div className="absolute top-0 left-0 w-1 h-full rounded-l-lg opacity-30" 
@@ -72,7 +92,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDelete, onEdit, onSt
 
               {/* Status Dropdown Menu */}
               {showStatusDropdown && (
-                <div className="absolute right-0 top-full mt-1 bg-bg-card border border-border-main rounded-xl shadow-xl z-50 min-w-[140px] overflow-hidden">
+                <div ref={dropdownRef} className="absolute right-0 top-full mt-1 bg-bg-card border border-border-main rounded-xl shadow-xl z-50 min-w-[140px] overflow-hidden">
                   {statusOptions.map((status) => (
                     <button
                       key={status}

@@ -78,16 +78,16 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         {stats.map((stat) => (
           <div key={stat.label} className="bg-bg-card p-4 lg:p-6 rounded-[24px] lg:rounded-[32px] border border-border-main shadow-sm flex items-center justify-between group hover:shadow-md transition-all">
             <div>
-              <p className="text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1">{stat.label}</p>
+              <p className="text-[9px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-1 whitespace-nowrap">{stat.label}</p>
               <h3 className="text-2xl lg:text-3xl font-bold text-text-primary">{stat.value}</h3>
               <p className="text-[9px] lg:text-[10px] font-bold text-text-muted mt-1 uppercase opacity-60">Total Tasks</p>
             </div>
-            <div className={cn("p-3 lg:p-4 rounded-[16px] lg:rounded-[20px] transition-transform group-hover:scale-110 shadow-sm", stat.bg, stat.color)}>
-              <stat.icon className="w-6 h-6 lg:w-8 lg:h-8" />
+            <div className={cn("p-2 lg:p-4 rounded-[12px] lg:rounded-[20px] transition-transform group-hover:scale-110 shadow-sm", stat.bg, stat.color)}>
+              <stat.icon className="w-4 h-4 lg:w-8 lg:h-8" />
             </div>
           </div>
         ))}
@@ -100,53 +100,56 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
           {/* Priority Pie Chart */}
           <div className="mb-6 lg:mb-8">
             <p className="text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-3 lg:mb-4">By Priority</p>
-            <div className="h-[200px] lg:h-[280px] w-full relative">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={50}
-                    outerRadius={70}
-                    paddingAngle={10}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1)', padding: '16px', backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}
-                    itemStyle={{ fontWeight: 'bold', fontSize: '12px' }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-3xl lg:text-4xl font-bold text-text-primary">{tasks.length}</span>
-                <span className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest mt-1">Total</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2 lg:gap-3 mt-3 lg:mt-4">
-              {chartData.map(item => (
-                <div key={item.name} className="flex items-center justify-between p-2 lg:p-3 rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
-                    <span className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.name}</span>
-                  </div>
-                  <span className="text-[10px] lg:text-xs font-bold text-text-primary">{Math.round((item.value / tasks.length) * 100) || 0}%</span>
+            <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
+              <div className="h-[250px] lg:h-[300px] w-full lg:w-1/2 relative min-w-0">
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                  <PieChart>
+                    <Pie
+                      data={chartData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={120}
+                      paddingAngle={10}
+                      dataKey="value"
+                      stroke="none"
+                      activeShape={false}
+                    >
+                      {chartData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} stroke="none" strokeWidth={0} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1)', padding: '16px', backgroundColor: '#ffffff', color: '#1a1a1a' }}
+                      itemStyle={{ fontWeight: 'bold', fontSize: '12px' }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 lg:text-4xl flex flex-col items-center justify-center pointer-events-none">
+                  <span className="font-bold text-[40px] lg:text-[40px] text-text-primary">{tasks.length}</span>
+                  <span className="text-[20px] lg:text-[20px] font-bold text-text-muted uppercase tracking-widest mt-1">Total</span>
                 </div>
-              ))}
+              </div>
+              <div className="w-full lg:w-1/2 grid grid-cols-1 gap-2 lg:gap-3">
+                {chartData.map(item => (
+                  <div key={item.name} className="flex items-center justify-between p-2 lg:p-3 rounded-xl bg-bg-input/30 border border-border-main/50 shadow-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full shadow-sm" style={{ backgroundColor: item.color }} />
+                      <span className="text-[9px] lg:text-[10px] font-bold text-text-muted uppercase tracking-widest">{item.name}</span>
+                    </div>
+                    <span className="text-[10px] lg:text-xs font-bold text-text-primary">{Math.round((item.value / tasks.length) * 100) || 0}%</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Status Bar Chart */}
           <div className="border-t border-border-main/50 pt-6 lg:pt-8">
             <p className="text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest mb-3 lg:mb-4">By Status</p>
-            <div className="h-[150px] lg:h-[200px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={statusChartData}>
+            <div className="h-[200px] lg:h-[280px] w-full min-w-0">
+              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                <BarChart data={statusChartData} margin={{ left: 0, right: 0, top: 0, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--border-main)" vertical={false} />
                   <XAxis 
                     dataKey="name" 
@@ -158,14 +161,15 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
                     tick={{ fill: 'var(--text-muted)', fontSize: 9, fontWeight: 'bold' }}
                     axisLine={{ stroke: 'var(--border-main)' }}
                     tickLine={{ stroke: 'var(--border-main)' }}
+                    hide={true}
                   />
                   <Tooltip 
-                    contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1)', padding: '16px', backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}
+                    contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1)', padding: '16px', backgroundColor: '#ffffff', color: '#1a1a1a' }}
                     itemStyle={{ fontWeight: 'bold', fontSize: '12px' }}
                   />
-                  <Bar dataKey="value" radius={[8, 8, 8, 8]}>
+                  <Bar dataKey="value" radius={[8, 8, 8, 8]} isAnimationActive={false} activeBar={false}>
                     {statusChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
+                      <Cell key={`cell-${index}`} fill={entry.color} stroke="none" strokeWidth={0} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -187,28 +191,20 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
 
         <div className="bg-bg-card p-6 lg:p-8 rounded-[32px] lg:rounded-[40px] border border-border-main shadow-sm flex flex-col">
           <div className="flex items-center justify-between mb-6 lg:mb-8">
-            <div className="flex items-center gap-3 lg:gap-4">
-              <h3 className="text-base lg:text-lg font-bold text-text-primary">Tasks</h3>
-              <div className="relative">
-                <select 
-                  value={selectedPriority}
-                  onChange={(e) => setSelectedPriority(e.target.value as any)}
-                  className="bg-bg-input border border-border-main/50 pl-3 pr-8 py-1.5 rounded-lg text-xs lg:text-sm font-bold text-accent outline-none appearance-none cursor-pointer hover:bg-bg-input/80 transition-all shadow-sm"
-                >
-                  <option value="All">All Priority</option>
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Low">Low</option>
-                </select>
-                <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-accent pointer-events-none" />
-              </div>
+            <h3 className="text-base lg:text-lg font-bold text-text-primary">Tasks</h3>
+            <div className="relative">
+              <select 
+                value={selectedPriority}
+                onChange={(e) => setSelectedPriority(e.target.value as any)}
+                className="bg-bg-input border border-border-main/50 pl-3 pr-8 py-1.5 rounded-lg text-xs lg:text-sm font-bold text-accent outline-none appearance-none cursor-pointer hover:bg-bg-input/80 transition-all shadow-sm"
+              >
+                <option value="All">All Priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-accent pointer-events-none" />
             </div>
-            <button 
-              onClick={onNavigateToMyTasks}
-              className="text-xs lg:text-sm font-bold text-accent hover:underline uppercase tracking-widest"
-            >
-              View all tasks
-            </button>
           </div>
           
           <div className="space-y-3 lg:space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-2">
@@ -279,6 +275,14 @@ const PriorityView: React.FC<PriorityViewProps> = ({ tasks, onNavigateToMyTasks 
               </div>
             </div>
           )}
+
+          {/* View All Tasks Button */}
+          <button 
+            onClick={onNavigateToMyTasks}
+            className="mt-4 w-full py-3 bg-bg-input border border-border-main/50 rounded-xl text-xs lg:text-sm font-bold text-accent hover:bg-bg-card hover:border-accent/30 transition-all"
+          >
+            View all tasks
+          </button>
         </div>
       </div>
     </div>

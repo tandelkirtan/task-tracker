@@ -52,28 +52,28 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
 
   return (
     <div className="px-4 lg:px-8 py-4 lg:py-6 h-full flex flex-col">
-      <div className="flex items-center justify-between mb-6 lg:mb-8">
+      <div className="flex items-center justify-between mb-3 lg:mb-8">
         <div className="flex gap-8 border-b border-border-main/50 w-full relative">
           <button className="hidden lg:block pb-4 text-sm font-bold text-accent relative">
             All Tasks
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-accent rounded-full shadow-[0_-2px_10px_rgba(0,82,204,0.3)]" />
           </button>
           
-          <div className="ml-auto flex gap-3 pb-4 items-center">
-            <div className="relative">
+          <div className="flex gap-3 pb-4 items-center w-full">
+            <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
               <input 
                 type="text"
                 placeholder="Search tasks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-2.5 bg-bg-card border border-border-main rounded-xl text-sm font-bold text-text-primary outline-none w-48 lg:w-64 focus:ring-4 focus:ring-accent/10 transition-all placeholder:text-text-muted/50 shadow-sm"
+                className="pl-9 pr-4 py-2.5 bg-bg-card border border-border-main rounded-xl text-sm font-bold text-text-primary outline-none w-full focus:ring-4 focus:ring-accent/10 transition-all placeholder:text-text-muted/50 shadow-sm"
               />
             </div>
             <button 
               onClick={() => handleSort('priority')}
               className={cn(
-                "flex items-center gap-2 px-4 py-2.5 bg-bg-card border border-border-main rounded-xl text-sm font-bold transition-all shadow-sm",
+                "flex items-center gap-2 px-4 py-2.5 bg-bg-card border border-border-main rounded-xl text-sm font-bold transition-all shadow-sm shrink-0",
                 sortConfig?.key === 'priority' ? "text-accent border-accent/20 bg-accent-soft/30" : "text-text-primary hover:bg-bg-input"
               )}
             >
@@ -84,13 +84,32 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
         </div>
       </div>
 
+      {/* Priority Legend - Mobile Only */}
+      <div className="lg:hidden mb-3 p-2.5 bg-bg-input/30 rounded-xl border border-border-main/50 flex items-center justify-center gap-3">
+        <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest shrink-0">Priorities:</p>
+        <div className="flex gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-brand-red shadow-sm" />
+            <span className="text-[10px] font-bold text-text-primary">High</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-brand-blue shadow-sm" />
+            <span className="text-[10px] font-bold text-text-primary">Medium</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-brand-green shadow-sm" />
+            <span className="text-[10px] font-bold text-text-primary">Low</span>
+          </div>
+        </div>
+      </div>
+
       <div className="bg-bg-card rounded-[24px] lg:rounded-[32px] border border-border-main overflow-hidden flex-1 shadow-sm">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b border-border-main bg-bg-input">
               <th className="px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Task Name</th>
               <th className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Priority</th>
-              <th className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Status</th>
+              <th className="px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest text-center">Status</th>
               <th className="hidden md:table-cell px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest">Due Date</th>
               <th className="px-4 lg:px-6 py-3 lg:py-5 text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest text-right">Actions</th>
             </tr>
@@ -99,19 +118,25 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
             {filteredTasks.map((task) => (
               <tr key={task.id} className="hover:bg-bg-input/50 transition-colors group">
                 <td className="px-4 lg:px-6 py-3 lg:py-5">
-                  <div className="flex items-center gap-3 lg:gap-4">
+                  <div className="flex items-start gap-3 lg:gap-4">
                     <div className={cn(
-                      "w-1 h-6 lg:h-10 rounded-full shrink-0 shadow-sm",
+                      "w-1 h-6 lg:h-10 rounded-full shrink-0 shadow-sm mt-0.5",
                       task.priority === 'High' ? "bg-brand-red" :
                       task.priority === 'Medium' ? "bg-brand-blue" :
                       "bg-brand-green"
                     )} />
-                    <span className={cn(
-                      "font-bold text-text-primary text-xs lg:text-sm truncate group-hover:text-accent transition-colors",
-                      task.status === 'DONE' && "line-through opacity-50"
-                    )}>
-                      {task.title}
-                    </span>
+                    <div className="flex-1 min-w-0">
+                      <span className={cn(
+                        "font-bold text-text-primary text-xs lg:text-sm block group-hover:text-accent transition-colors",
+                        task.status === 'DONE' && "line-through opacity-50"
+                      )}>
+                        {task.title}
+                      </span>
+                      <div className="md:hidden flex items-center gap-1.5 mt-1 text-text-muted text-[9px] font-bold uppercase tracking-widest">
+                        <Calendar className="w-3 h-3" />
+                        <span>{task.date}</span>
+                      </div>
+                    </div>
                   </div>
                 </td>
                 <td className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5">
@@ -125,7 +150,7 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
                     <span className="text-[10px] lg:text-xs font-bold text-text-primary uppercase tracking-wider">{task.priority}</span>
                   </div>
                 </td>
-                <td className="hidden sm:table-cell px-4 lg:px-6 py-3 lg:py-5">
+                <td className="px-4 lg:px-6 py-3 lg:py-5 text-center">
                   <span className={cn(
                     "text-[9px] lg:text-[10px] font-bold px-2 lg:px-3 py-1 lg:py-1.5 rounded-lg uppercase tracking-wider inline-block shadow-sm",
                     task.status === 'DONE' ? "bg-brand-green/10 text-brand-green border border-brand-green/20" :
@@ -172,7 +197,7 @@ const MyTasks: React.FC<MyTasksProps> = ({ tasks, onEdit, onDelete }) => {
           </div>
         )}
       </div>
-      <div className="mt-4 lg:mt-6 flex items-center justify-between text-text-muted text-[10px] lg:text-[11px] font-bold uppercase tracking-widest px-4">
+      <div className="mt-3 lg:mt-6 flex items-center justify-center text-text-muted text-[10px] lg:text-[11px] font-bold uppercase tracking-widest px-4">
         <span className="bg-bg-card px-2.5 lg:px-3 py-1.5 rounded-lg border border-border-main/50 shadow-sm">
           Showing {filteredTasks.length} of {tasks.length} tasks
         </span>

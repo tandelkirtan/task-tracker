@@ -66,17 +66,6 @@ const SettingsView: React.FC<SettingsViewProps> = ({
                   />
                 </div>
               </div>
-              <div className="space-y-2 lg:space-y-3">
-                <label className="text-[10px] lg:text-[11px] font-bold text-text-muted uppercase tracking-widest ml-1">
-                  Bio
-                </label>
-                <textarea
-                  rows={2}
-                  value={user.bio}
-                  onChange={(e) => onUpdateUser({ ...user, bio: e.target.value })}
-                  className="w-full px-4 lg:px-6 py-3 lg:py-4 bg-bg-input border-2 border-transparent focus:border-brand-blue/20 focus:bg-bg-card rounded-[16px] lg:rounded-[20px] outline-none transition-all font-bold text-text-primary resize-none shadow-sm text-sm lg:text-base"
-                />
-              </div>
             </div>
           </div>
 
